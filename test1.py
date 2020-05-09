@@ -9,12 +9,11 @@ def do_something(seconds):
     time.sleep(seconds)
     return f"done sleeping.... {seconds},,second(s)"
 
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    secs=[5,4,3,2,1]
-    results=executor.map(do_something,secs)
+with concurrent.futures.ProcessPoolExecutor() as executor:
+    results=[executor.submit(do_something,1) for _ in range(10)]
+    for f in concurrent.futures.as_completed(results):
+        print(f.result())
 
-    for result in results:
-        print(result)
 
 
 #threads=[]
