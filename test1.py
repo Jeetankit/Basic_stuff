@@ -1,31 +1,27 @@
-import time
+#this module provides a high level API for executing asynchronus task
 import concurrent.futures
-#start counting time
-start =time.perf_counter()
+
+#executor class is an abstract class and cannot be used directly
+#The two subclass can be imported which are
+#Number 1-------
+concurrent.futures.ThreadPoolExecutor
+#This class has pools of th thread and use the multithreading
+
+concurrent.futures.ProcessPoolExecutor
+
+#This class has pools of process and use the muliporocessing
+#we get a pool of threads or process and submit task to these pool
+#it will automatically the assigne the task to the available resource and schedule them torun
 
 
-def do_something(seconds):
-    print(f'Sleeping {seconds} second(s)...')
-    time.sleep(seconds)
-    return f"done sleeping.... {seconds},,second(s)"
-
-with concurrent.futures.ProcessPoolExecutor() as executor:
-    results=[executor.submit(do_something,1) for _ in range(10)]
-    for f in concurrent.futures.as_completed(results):
-        print(f.result())
+from time import sleep
 
 
+def task(message):
+    print("start task")
+    sleep(5)
+    print(message)
 
-#threads=[]
-#for _ in range(10):
-#    t1=threading.Thread(target=do_something,args=[1.5])
-#    t1.start()
-#    threads.append(t1)
-#
-#for th in threads:
-#    th.join()
+pool=concurrent.futures.ThreadPoolExecutor(3)
 
-
-finish=time.perf_counter()
-
-print(f'finsihed in {round(finish-start,2)} second(s)')
+future=pool.map(task,["hell0","nothing","couldbe"])
