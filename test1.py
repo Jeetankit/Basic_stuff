@@ -11,3 +11,5 @@ def task(n):
 
 with ProcessPoolExecutor(5) as exexutor:
     results=[exexutor.submit(task,_) for _ in range(5,0,-1)]
+
+#nothing is memorable
